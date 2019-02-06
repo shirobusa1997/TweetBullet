@@ -1,13 +1,18 @@
 import sys
 from PyQt5.QtWidgets import *
 
-def main():
-	app = QApplication(sys.argv)
-	widget = QWidget()
-	widget.resize(250, 150)
-	widget.setWindowTitle('sample')
-	widget.show()
-	sys.exit(app.exec_())
+class MainWindow(QWidget):
+	w_width = 400
+	w_height = 150
 
-if __name == '__main__':
-	main()
+	def __init__(self, parent = None):
+		super(MainWindow, self).__init__(parent)
+
+		self.setGeometry(300, 50, self.w_width, self.w_height)
+		self.setWindowTitle('Mojatter')
+
+if __name__ == '__main__':
+	app = QApplication(sys.argv)
+	main_window = MainWindow()
+	main_window.show()
+	sys.exit(app.exec_())
