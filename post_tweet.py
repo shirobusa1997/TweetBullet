@@ -1,5 +1,4 @@
-import config
-import json
+import Configulations.config as config, json
 from requests_oauthlib import OAuth1Session
 
 CONSUMER_KEY = config.consumer_key
