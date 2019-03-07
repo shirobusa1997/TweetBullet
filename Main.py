@@ -4,9 +4,12 @@ from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
 
 # UIクラス参照
-from UserInterfaces.mainwindow import Ui_MainWindow
+from UserInterfaces.UIController import *
 
-class Test(QMainWindow):
+# Twitter機能制御クラス参照
+from TWController import *
+
+class Test(Object):
     # コンストラクタメソッド
     def __init__(self, parent = None):
         super(Test, self).__init__(parent)
