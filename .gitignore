@@ -1,3 +1,4 @@
 Configulations/config.py
 *.pyc
 *.~vsdx
+.vscode/
