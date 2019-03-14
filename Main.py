@@ -7,7 +7,7 @@ from PyQt5.QtWidgets import *
 from UserInterfaces.UIController import *
 
 # Twitter機能制御クラス参照
-from TWController import *
+from TwitterSystem.TWController import *
 
 class Test(Object):
     # コンストラクタメソッド
