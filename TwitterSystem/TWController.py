@@ -4,19 +4,19 @@ import Configulations.config as config, json
 # 標準モジュール参照
 from requests_oauthlib import OAuth1Session
 
-print("Please input details of your posts.")
-tweet = input('>> ')
+# print("Please input details of your posts.")
+# tweet = input('>> ')
 
-param = {"status" : tweet}
+# param = {"status" : tweet}
 
-res = TWITTER_OAUTH.post(RESOURCE_URL, params = param)
+# res = TWITTER_OAUTH.post(RESOURCE_URL, params = param)
 
-if res.status_code == 200:
-	print("Comfirmed your post.")
-else:
-	print("Failed : %d"% res.status_code)
+# if res.status_code == 200:
+# 	print("Comfirmed your post.")
+# else:
+# 	print("Failed : %d"% res.status_code)
 
-class TWController(Object):
+class TWController():
 	TW_USER_name = "[UserName]"
 	TW_USER_id	 = "[UserID]"
 
@@ -29,7 +29,7 @@ class TWController(Object):
 	RESOURCE_URL = "https://api.twitter.com/1.1/statuses/update.json"
 
 	# OAuthによるユーザ認証
-	def authorize_user():
+	def authorize_user(self):
 		CONSUMER_KEY 		= config.consumer_key
 		CONSUMER_SECRET 	= config.consumer_secret
 		ACCESS_TOKEN 		= config.access_token
