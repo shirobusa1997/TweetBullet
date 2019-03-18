@@ -9,7 +9,7 @@ from UserInterfaces.UIController import *
 # Twitter機能制御クラス参照
 from TwitterSystem.TWController import *
 
-class Test(Object):
+class Test():
     # コンストラクタメソッド
     def __init__(self, parent = None):
         super(Test, self).__init__(parent)
