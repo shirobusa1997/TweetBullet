@@ -11,9 +11,7 @@ from TwitterSystem.TWController import *
 
 class Test():
     # コンストラクタメソッド
-    def __init__(self, parent = None):
-        super(Test, self).__init__(parent)
-
+    def __init__(self):
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
 
