@@ -3,6 +3,9 @@
 # UIクラス指定
 from UserInterfaces.mainwindow import Ui_MainWindow
 
+# PyQt5モジュール参照
+from PyQt5.QtWidgets import *
+
 # UI制御クラス宣言
 class UIController(QMainWindow):
 # コンストラクタメソッド
