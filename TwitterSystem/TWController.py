@@ -1,7 +1,8 @@
 # コンフィグデータ参照
-import config as config, json
+import config, json
 
 # 標準モジュール参照
+import sys
 from requests_oauthlib import OAuth1Session
 
 # print("Please input details of your posts.")
@@ -19,24 +20,17 @@ from requests_oauthlib import OAuth1Session
 class TWController():
 	TW_USER_name = "[UserName]"
 	TW_USER_id	 = "[UserID]"
-
-	CONSUMER_KEY 		= 'Unknown'
-	CONSUMER_SECRET 	= 'Unknown'
-	ACCESS_TOKEN 		= 'Unknown'
-	ACCESS_TOKEN_SECRET = 'Unknown'
-	TWITTER_OAUTH 		= 'Unknown'
-
 	RESOURCE_URL = "https://api.twitter.com/1.1/statuses/update.json"
 
 	# OAuthによるユーザ認証
 	def authorize_user(self):
-		CONSUMER_KEY 		= config.consumer_key
-		CONSUMER_SECRET 	= config.consumer_secret
-		ACCESS_TOKEN 		= config.access_token
-		ACCESS_TOKEN_SECRET = config.access_token_secret
+		self.CONSUMER_KEY 		= config.consumer_key
+		self.CONSUMER_SECRET 	= config.consumer_secret
+		self.ACCESS_TOKEN 		= config.access_token
+		self.ACCESS_TOKEN_SECRET = config.access_token_secret
 		# OAuthによる認証処理試行
 		try:
-			TWITTER_OAUTH = OAuth1Session(CONSUMER_KEY, CONSUMER_SECRET, ACCESS_TOKEN, ACCESS_TOKEN_SECRET)
+			self.TWITTER_OAUTH = OAuth1Session(self.CONSUMER_KEY, self.CONSUMER_SECRET, self.ACCESS_TOKEN, self.ACCESS_TOKEN_SECRET)
 		# すべての例外をキャッチ
 		except Exception as e:
 			print(e)
@@ -50,16 +44,23 @@ class TWController():
 		pass
 	
 	#
-	def post_tweet(self):
-		print("Please input details of your posts.")
-		tweet = input('>> ')
+	def post_tweet(self, tweet):
 		parameter = {"status" : tweet}
-
-		response = TWITTER_OAUTH.post(RESOURCE_URL, params = parameter)
-
-		if res.status_code == 200:
+		response = self.TWITTER_OAUTH.post(self.RESOURCE_URL, params = parameter)
+		if response.status_code == 200:
 			print("Comfirmed post.")
-			return true
+			return True
 		else:
-			print("Failed : %d"% res.status_code)
+			print("Failed : %d"% response.status_code)
 			return False
+
+if __name__ == '__main__':
+	tmp = TWController()
+	if tmp.authorize_user() == True:
+		if tmp.post_tweet("hoge") == True:
+			print("ALL GREEN")
+		else:
+			print("ERROR - TW2")
+	else:
+		print("ERROR - TW1")
+	sys.exit()
