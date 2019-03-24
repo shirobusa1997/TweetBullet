@@ -1,5 +1,5 @@
 # コンフィグデータ参照
-import Configulations.config as config, json
+import config as config, json
 
 # 標準モジュール参照
 from requests_oauthlib import OAuth1Session
@@ -44,3 +44,22 @@ class TWController():
 		else :
 			print("Authorization Completed.")
 			return True
+
+	# ユーザテキストの文字数チェック
+	def check_textsize(self, text):
+		pass
+	
+	#
+	def post_tweet(self):
+		print("Please input details of your posts.")
+		tweet = input('>> ')
+		parameter = {"status" : tweet}
+
+		response = TWITTER_OAUTH.post(RESOURCE_URL, params = parameter)
+
+		if res.status_code == 200:
+			print("Comfirmed post.")
+			return true
+		else:
+			print("Failed : %d"% res.status_code)
+			return False
