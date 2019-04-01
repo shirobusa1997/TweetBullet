@@ -91,6 +91,7 @@ class TWController():
 			print("Failed : %d"% response.status_code)
 			return False
 
+# 単体テスト時処理
 if __name__ == '__main__':
 	tmp = TWController()
 	auth_url = tmp.get_auth_url()
