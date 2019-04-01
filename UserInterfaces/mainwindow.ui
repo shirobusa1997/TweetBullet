@@ -10,11 +10,23 @@
     <height>140</height>
    </rect>
   </property>
+  <property name="minimumSize">
+   <size>
+    <width>400</width>
+    <height>140</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>400</width>
+    <height>140</height>
+   </size>
+  </property>
   <property name="windowTitle">
-   <string>Mojatter</string>
+   <string>[Dev] Mojatter</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <widget class="QTextEdit" name="textEdit">
+   <widget class="QTextEdit" name="PostEditor">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -24,7 +36,7 @@
      </rect>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton">
+   <widget class="QPushButton" name="PostButton">
     <property name="geometry">
      <rect>
       <x>330</x>
@@ -37,12 +49,12 @@
      <string>Post</string>
     </property>
    </widget>
-   <widget class="QLabel" name="label">
+   <widget class="QLabel" name="TextLengthIndicator">
     <property name="geometry">
      <rect>
       <x>10</x>
       <y>110</y>
-      <width>141</width>
+      <width>151</width>
       <height>20</height>
      </rect>
     </property>
@@ -61,7 +73,7 @@
      <string>[Remaining TextLength]</string>
     </property>
    </widget>
-   <widget class="QLabel" name="label_2">
+   <widget class="QLabel" name="UserInformation">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -89,5 +101,22 @@
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>PostEditor</sender>
+   <signal>textChanged()</signal>
+   <receiver>TextLengthIndicator</receiver>
+   <slot>update()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>200</x>
+     <y>65</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>85</x>
+     <y>119</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>
