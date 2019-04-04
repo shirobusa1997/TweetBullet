@@ -8,6 +8,8 @@ import webbrowser
 
 import oauth2
 
+import tweepy
+
 from requests_oauthlib import OAuth1Session
 
 # print("Please input details of your posts.")
@@ -64,17 +66,28 @@ class TWController():
 	def authorize_user(self):
 		# self.ACCESS_TOKEN 		= config.access_token
 		# self.ACCESS_TOKEN_SECRET = config.access_token_secret
+		# # OAuthによる認証処理試行
+		# try:
+		# 	self.TWITTER_OAUTH = OAuth1Session(self.CONSUMER_KEY, self.CONSUMER_SECRET, self.ACCESS_TOKEN, self.ACCESS_TOKEN_SECRET)
+		# # すべての例外をキャッチ
+		# except Exception as e:
+		# 	print(e)
+		# 	return False
+		# else :
+		# 	print("Authorization Completed.")
+		# 	return True
+		self.auth_url = get_auth_url()
+		webbrowser.open(self.auth_url)
 
-		# OAuthによる認証処理試行
-		try:
-			self.TWITTER_OAUTH = OAuth1Session(self.CONSUMER_KEY, self.CONSUMER_SECRET, self.ACCESS_TOKEN, self.ACCESS_TOKEN_SECRET)
-		# すべての例外をキャッチ
-		except Exception as e:
-			print(e)
-			return False
-		else :
-			print("Authorization Completed.")
-			return True
+		print("PINコードを入力してください。\n", end = "")
+		PIN = int(input(">> "))
+
+		access_token_content = get_access_token_dict(PIN)
+		self.ACCESS_TOKEN = access_token_content["oauth_token"][0]
+		self.ACCESS_TOKEN_SECRET = access_token_content["oauth_token_secret"][0]
+
+		print("ACCESS TOKEN        = " + access_token + "\n")
+		print("ACCESS TOKEN SECRET = " + access_token_secret + "\n")
 
 	# ユーザテキストの文字数チェック
 	def check_textsize(self, text):
@@ -94,17 +107,17 @@ class TWController():
 # 単体テスト時処理
 if __name__ == '__main__':
 	tmp = TWController()
-	auth_url = tmp.get_auth_url()
-	webbrowser.open(auth_url)
+	# auth_url = tmp.get_auth_url()
+	# webbrowser.open(auth_url)
 
-	print("PINコードを入力してください。\n", end = "")
-	PIN = int(input(">> "))
+	# print("PINコードを入力してください。\n", end = "")
+	# PIN = int(input(">> "))
 
-	access_token_content = tmp.get_access_token_dict(PIN)
-	access_token = access_token_content["oauth_token"][0]
-	access_token_secret = access_token_content["oauth_token_secret"][0]
+	# access_token_content = tmp.get_access_token_dict(PIN)
+	# access_token = access_token_content["oauth_token"][0]
+	# access_token_secret = access_token_content["oauth_token_secret"][0]
 
-	print("ACCESS TOKEN        = " + access_token + "\n")
-	print("ACCESS TOKEN SECRET = " + access_token_secret + "\n")
+	# print("ACCESS TOKEN        = " + access_token + "\n")
+	# print("ACCESS TOKEN SECRET = " + access_token_secret + "\n")
 	
 	sys.exit()
