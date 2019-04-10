@@ -76,18 +76,20 @@ class TWController():
 		# else :
 		# 	print("Authorization Completed.")
 		# 	return True
-		self.auth_url = get_auth_url()
+		self.auth_url = self.get_auth_url()
 		webbrowser.open(self.auth_url)
 
 		print("PINコードを入力してください。\n", end = "")
 		PIN = int(input(">> "))
 
-		access_token_content = get_access_token_dict(PIN)
-		self.ACCESS_TOKEN = access_token_content["oauth_token"][0]
-		self.ACCESS_TOKEN_SECRET = access_token_content["oauth_token_secret"][0]
+		self.access_token_content = self.get_access_token_dict(PIN)
+		self.ACCESS_TOKEN = self.access_token_content["oauth_token"][0]
+		self.ACCESS_TOKEN_SECRET = self.access_token_content["oauth_token_secret"][0]
 
-		print("ACCESS TOKEN        = " + access_token + "\n")
-		print("ACCESS TOKEN SECRET = " + access_token_secret + "\n")
+		print("Authorization Completed.------------------------------------------------")
+		print("ACCESS TOKEN        = " + self.ACCESS_TOKEN)
+		print("ACCESS TOKEN SECRET = " + self.ACCESS_TOKEN_SECRET)
+		print("------------------------------------------------------------------------")
 
 	# ユーザテキストの文字数チェック
 	def check_textsize(self, text):
@@ -111,17 +113,19 @@ class TWController():
 # 単体テスト時処理
 if __name__ == '__main__':
 	tmp = TWController()
-	auth_url = tmp.get_auth_url()
-	webbrowser.open(auth_url)
+	# auth_url = tmp.get_auth_url()
+	# webbrowser.open(auth_url)
 
-	print("PINコードを入力してください。\n", end = "")
-	PIN = int(input(">> "))
+	# print("PINコードを入力してください。\n", end = "")
+	# PIN = int(input(">> "))
 
-	access_token_content = tmp.get_access_token_dict(PIN)
-	access_token = access_token_content["oauth_token"][0]
-	access_token_secret = access_token_content["oauth_token_secret"][0]
+	# access_token_content = tmp.get_access_token_dict(PIN)
+	# access_token = access_token_content["oauth_token"][0]
+	# access_token_secret = access_token_content["oauth_token_secret"][0]
 
-	print("ACCESS TOKEN        = " + access_token + "\n")
-	print("ACCESS TOKEN SECRET = " + access_token_secret + "\n")
+	# print("ACCESS TOKEN        = " + access_token + "\n")
+	# print("ACCESS TOKEN SECRET = " + access_token_secret + "\n")
+
+	tmp.authorize_user()
 
 	sys.exit()
