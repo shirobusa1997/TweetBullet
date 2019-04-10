@@ -92,7 +92,7 @@ class TWController():
 	# ユーザテキストの文字数チェック
 	def check_textsize(self, text):
 		pass
-	
+
 	#
 	def post_tweet(self, tweet):
 		parameter = {"status" : tweet}
@@ -104,20 +104,24 @@ class TWController():
 			print("Failed : %d"% response.status_code)
 			return False
 
+	# ユーザID・名前の取得
+	def get_userdata(self):
+		pass
+
 # 単体テスト時処理
 if __name__ == '__main__':
 	tmp = TWController()
-	# auth_url = tmp.get_auth_url()
-	# webbrowser.open(auth_url)
+	auth_url = tmp.get_auth_url()
+	webbrowser.open(auth_url)
 
-	# print("PINコードを入力してください。\n", end = "")
-	# PIN = int(input(">> "))
+	print("PINコードを入力してください。\n", end = "")
+	PIN = int(input(">> "))
 
-	# access_token_content = tmp.get_access_token_dict(PIN)
-	# access_token = access_token_content["oauth_token"][0]
-	# access_token_secret = access_token_content["oauth_token_secret"][0]
+	access_token_content = tmp.get_access_token_dict(PIN)
+	access_token = access_token_content["oauth_token"][0]
+	access_token_secret = access_token_content["oauth_token_secret"][0]
 
-	# print("ACCESS TOKEN        = " + access_token + "\n")
-	# print("ACCESS TOKEN SECRET = " + access_token_secret + "\n")
-	
+	print("ACCESS TOKEN        = " + access_token + "\n")
+	print("ACCESS TOKEN SECRET = " + access_token_secret + "\n")
+
 	sys.exit()
