@@ -5,6 +5,7 @@ import config, json
 import sys
 import urllib
 import webbrowser
+import unicodedata
 
 import oauth2
 
@@ -27,16 +28,26 @@ from requests_oauthlib import OAuth1Session
 class TWController():
 	TW_USER_name = "[UserName]"
 	TW_USER_id	 = "[UserID]"
-	RESOURCE_URL = "https://api.twitter.com/1.1/statuses/update.json"
+
+	RESOURCE_URL	= "https://api.twitter.com/1.1/statuses/update.json"
+	USERLOOKUP_URL	= "https://api.twitter.com/1.1/users/lookup.json"
 
 	REQUEST_TOKEN_URL = "https://api.twitter.com/oauth/request_token"
 	ACCESS_TOKEN_URL  = "https://api.twitter.com/oauth/access_token"
 	AUTHENTICATE_URL  = "https://api.twitter.com/oauth/authenticate"
 
+	# 最大テキスト長(Byte単位で計算)
+	max_length = 240
+
 	def __init__(self):
 		self.CONSUMER_KEY 		= config.consumer_key
 		self.CONSUMER_SECRET 	= config.consumer_secret
 		self.app = oauth2.Consumer(self.CONSUMER_KEY, self.CONSUMER_SECRET)
+
+	def get_saved_token(self, fileref):
+		list = [string.strip() for string in fileref.readlines()]
+		self.ACCESS_TOKEN = list[0]
+		self.ACCESS_TOKEN_SECRET = list[1]
 
 	# アプリケーション認証URL取得
 	def get_auth_url(self):
@@ -64,22 +75,38 @@ class TWController():
 
 	# OAuthによるユーザ認証
 	def authorize_user(self):
-		# self.ACCESS_TOKEN 		= config.access_token
-		# self.ACCESS_TOKEN_SECRET = config.access_token_secret
-		self.auth_url = self.get_auth_url()
-		webbrowser.open(self.auth_url)
+		self.path = '.savedata'
+		try:
+			with open(self.path) as fileref:
+				self.get_saved_token(fileref)
+		except FileNotFoundError:
+			# self.ACCESS_TOKEN 		= config.access_token
+			# self.ACCESS_TOKEN_SECRET = config.access_token_secret
+			self.auth_url = self.get_auth_url()
+			webbrowser.open(self.auth_url)
 
-		print("PINコードを入力してください。\n", end = "")
-		PIN = int(input(">> "))
+			print("PINコードを入力してください。\n", end = "")
+			PIN = int(input(">> "))
 
-		self.access_token_content = self.get_access_token_dict(PIN)
-		self.ACCESS_TOKEN = self.access_token_content["oauth_token"][0]
-		self.ACCESS_TOKEN_SECRET = self.access_token_content["oauth_token_secret"][0]
+			self.access_token_content = self.get_access_token_dict(PIN)
+			self.ACCESS_TOKEN = self.access_token_content["oauth_token"][0]
+			self.ACCESS_TOKEN_SECRET = self.access_token_content["oauth_token_secret"][0]
 
-		print("Authorization Completed.------------------------------------------------")
-		print("ACCESS TOKEN        = " + self.ACCESS_TOKEN)
-		print("ACCESS TOKEN SECRET = " + self.ACCESS_TOKEN_SECRET)
-		print("------------------------------------------------------------------------")
+			print("Authorization Completed.------------------------------------------------")
+			print("ACCESS TOKEN        = " + self.ACCESS_TOKEN)
+			print("ACCESS TOKEN SECRET = " + self.ACCESS_TOKEN_SECRET)
+			print("------------------------------------------------------------------------")
+
+			try:
+				with open(self.path, mode="w") as fileref:
+					string = self.ACCESS_TOKEN + "\n" + self.ACCESS_TOKEN_SECRET
+					fileref.write(string)
+			except FileNotFoundError as e:
+				print("An error occured!")
+				print(e)
+				sys.exit()
+			else:
+				print("Saved ")
 
 		# OAuthによる認証処理試行
 		try:
@@ -92,9 +119,21 @@ class TWController():
 			print("Authorization Completed.")
 			return True
 
-	# ユーザテキストの文字数チェック
-	def check_textsize(self, text):
-		pass
+	# ユーザテキストの文字数計算
+	def check_textlength(self, text):
+		for character in text:
+			# 全角文字・特殊文字は2文字(Byte)として計算
+			if unicodedata.east_asian_width(character) in 'FWA':
+				self.textlength += 2
+			else:
+				self.textlength += 1
+
+	# Post可否判定
+	def can_post(self):
+		if (self.textlength  < 240 and self.textlength > 0):
+			return True
+		else:
+			return False
 
 	# ツイートのPost
 	def post_tweet(self, tweet):
