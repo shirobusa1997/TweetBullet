@@ -2,44 +2,58 @@
 
 # Form implementation generated from reading ui file 'mainwindow.ui'
 #
-# Created by: PyQt5 UI code generator 5.12
+# Created by: PyQt5 UI code generator 5.12.1
 #
 # WARNING! All changes made in this file will be lost!
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
+
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(400, 148)
+        MainWindow.resize(400, 140)
+        MainWindow.setMinimumSize(QtCore.QSize(400, 140))
+        MainWindow.setMaximumSize(QtCore.QSize(400, 140))
         self.centralWidget = QtWidgets.QWidget(MainWindow)
         self.centralWidget.setObjectName("centralWidget")
-        self.textEdit = QtWidgets.QTextEdit(self.centralWidget)
-        self.textEdit.setGeometry(QtCore.QRect(10, 10, 381, 91))
-        self.textEdit.setObjectName("textEdit")
-        self.pushButton = QtWidgets.QPushButton(self.centralWidget)
-        self.pushButton.setGeometry(QtCore.QRect(310, 100, 75, 23))
-        self.pushButton.setObjectName("pushButton")
-        self.label = QtWidgets.QLabel(self.centralWidget)
-        self.label.setGeometry(QtCore.QRect(239, 80, 141, 20))
+        self.PostEditor = QtWidgets.QTextEdit(self.centralWidget)
+        self.PostEditor.setGeometry(QtCore.QRect(10, 20, 381, 91))
+        self.PostEditor.setObjectName("PostEditor")
+        self.PostButton = QtWidgets.QPushButton(self.centralWidget)
+        self.PostButton.setGeometry(QtCore.QRect(330, 110, 61, 23))
+        self.PostButton.setObjectName("PostButton")
+        self.TextLengthIndicator = QtWidgets.QLabel(self.centralWidget)
+        self.TextLengthIndicator.setGeometry(QtCore.QRect(10, 110, 151, 20))
         font = QtGui.QFont()
-        font.setItalic(True)
-        self.label.setFont(font)
-        self.label.setLayoutDirection(QtCore.Qt.LeftToRight)
-        self.label.setObjectName("label")
+        font.setFamily("游ゴシック")
+        font.setBold(True)
+        font.setItalic(False)
+        font.setWeight(75)
+        self.TextLengthIndicator.setFont(font)
+        self.TextLengthIndicator.setLayoutDirection(QtCore.Qt.LeftToRight)
+        self.TextLengthIndicator.setObjectName("TextLengthIndicator")
+        self.UserInformation = QtWidgets.QLabel(self.centralWidget)
+        self.UserInformation.setGeometry(QtCore.QRect(10, 0, 221, 20))
+        font = QtGui.QFont()
+        font.setFamily("游ゴシック")
+        font.setBold(True)
+        font.setItalic(False)
+        font.setWeight(75)
+        self.UserInformation.setFont(font)
+        self.UserInformation.setLayoutDirection(QtCore.Qt.LeftToRight)
+        self.UserInformation.setObjectName("UserInformation")
         MainWindow.setCentralWidget(self.centralWidget)
-        self.statusBar = QtWidgets.QStatusBar(MainWindow)
-        self.statusBar.setSizeGripEnabled(False)
-        self.statusBar.setObjectName("statusBar")
-        MainWindow.setStatusBar(self.statusBar)
 
         self.retranslateUi(MainWindow)
+        self.PostEditor.textChanged.connect(self.TextLengthIndicator.update)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
-        self.pushButton.setText(_translate("MainWindow", "Post"))
-        self.label.setText(_translate("MainWindow", "CurrentTextLength / 140"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "[Dev] Mojatter"))
+        self.PostButton.setText(_translate("MainWindow", "Post"))
+        self.TextLengthIndicator.setText(_translate("MainWindow", "[Remaining TextLength]"))
+        self.UserInformation.setText(_translate("MainWindow", "[UserName] (@[UserID])"))
 
 
