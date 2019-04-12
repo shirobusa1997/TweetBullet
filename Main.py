@@ -4,10 +4,10 @@ from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
 
 # UIクラス参照
-from UserInterfaces.UIController import *
+from UserInterfaces.UIController import * as UI
 
 # Twitter機能制御クラス参照
-from TwitterSystem.TWController import *
+from TwitterSystem.TWController import * as TW
 
 class Test():
     # コンストラクタメソッド
