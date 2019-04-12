@@ -2,4 +2,4 @@ Configulations/config.py
 *.pyc
 *.~vsdx
 .vscode/
-TwitterSystem/config.py
+config.py

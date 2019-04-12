@@ -19,7 +19,11 @@ class UIController(QMainWindow):
         self.ui.setupUi(self)
 
     def connect_signal-slot(self):
-        self.ui.pushButton.clicked.connect(self.pushed_postButton)
+        self.ui.PostButton.clicked.connect(self.pushed_postButton)
+        self.ui.PostEditor.textChanged.connect(self.updated_text)
 
     def pushed_postButton(self):
+        TWengine.post_tweet()
+
+    def updated_text(self):
         pass
