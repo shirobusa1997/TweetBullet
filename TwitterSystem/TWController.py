@@ -66,16 +66,6 @@ class TWController():
 	def authorize_user(self):
 		# self.ACCESS_TOKEN 		= config.access_token
 		# self.ACCESS_TOKEN_SECRET = config.access_token_secret
-		# # OAuthによる認証処理試行
-		# try:
-		# 	self.TWITTER_OAUTH = OAuth1Session(self.CONSUMER_KEY, self.CONSUMER_SECRET, self.ACCESS_TOKEN, self.ACCESS_TOKEN_SECRET)
-		# # すべての例外をキャッチ
-		# except Exception as e:
-		# 	print(e)
-		# 	return False
-		# else :
-		# 	print("Authorization Completed.")
-		# 	return True
 		self.auth_url = self.get_auth_url()
 		webbrowser.open(self.auth_url)
 
@@ -91,11 +81,22 @@ class TWController():
 		print("ACCESS TOKEN SECRET = " + self.ACCESS_TOKEN_SECRET)
 		print("------------------------------------------------------------------------")
 
+		# OAuthによる認証処理試行
+		try:
+			self.TWITTER_OAUTH = OAuth1Session(self.CONSUMER_KEY, self.CONSUMER_SECRET, self.ACCESS_TOKEN, self.ACCESS_TOKEN_SECRET)
+		# すべての例外をキャッチ
+		except Exception as e:
+			print(e)
+			return False
+		else :
+			print("Authorization Completed.")
+			return True
+
 	# ユーザテキストの文字数チェック
 	def check_textsize(self, text):
 		pass
 
-	#
+	# ツイートのPost
 	def post_tweet(self, tweet):
 		parameter = {"status" : tweet}
 		response = self.TWITTER_OAUTH.post(self.RESOURCE_URL, params = parameter)
@@ -127,5 +128,7 @@ if __name__ == '__main__':
 	# print("ACCESS TOKEN SECRET = " + access_token_secret + "\n")
 
 	tmp.authorize_user()
+
+	tmp.post_tweet("Test Tweet from TweetBullets.")
 
 	sys.exit()
