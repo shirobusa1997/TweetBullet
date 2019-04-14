@@ -116,7 +116,8 @@ class TWController():
 			self.OAUTH.set_access_token(self.ACCESS_TOKEN, self.ACCESS_TOKEN_SECRET)
 			self.APIInst 	= tweepy.API(self.OAUTH)
 			self.UserObject = self.APIInst.me() 
-			self.UserName	= self.UserObject.screen_name
+			self.UserName	= self.UserObject.name
+			self.UserID		= self.UserObject.screen_name
 
 		# すべての例外をキャッチ
 		except Exception as e:

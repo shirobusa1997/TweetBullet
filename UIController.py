@@ -27,7 +27,7 @@ class UIController(QMainWindow):
         self.connect_signal_slot()
         self.updated_text()
         
-        self.ui.UserInformation.setText("@" + self.tw.UserName)
+        self.ui.UserInformation.setText(self.tw.UserName + " (@" + self.tw.UserID + ")")
 
         print("Initialize section : ALL GREEN")
 
@@ -41,7 +41,7 @@ class UIController(QMainWindow):
     def updated_text(self):
         self.post = self.ui.PostEditor.toPlainText()
         print("UPDATE : " + self.post)
-        self.ui.TextLengthIndicator.setText(str(self.tw.check_textlength(self.post)) + " / " + str(self.tw.max_length))
+        self.ui.TextLengthIndicator.setText(str(self.tw.check_textlength(self.post)) + " / " + str(self.tw.max_length) + "[Byte]")
         if self.tw.can_post():
             self.ui.PostButton.setEnabled(True)
         else:
