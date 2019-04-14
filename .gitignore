@@ -3,3 +3,4 @@ Configulations/config.py
 *.~vsdx
 .vscode/
 config.py
+.savedata
