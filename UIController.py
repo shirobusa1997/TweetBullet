@@ -25,6 +25,7 @@ class UIController(QMainWindow):
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
         self.connect_signal_slot()
+        self.updated_text()
 
         print("Initialize section : ALL GREEN")
 
@@ -35,13 +36,14 @@ class UIController(QMainWindow):
     def updated_text(self):
         self.post = self.ui.PostEditor.toPlainText()
         print("UPDATE : " + self.post)
-        self.ui.TextLengthIndicator.setText(str(self.tw.textlength) + " / " + self.tw.max_length)
+        self.ui.TextLengthIndicator.setText(str(self.tw.check_textlength(self.post)) + " / " + str(self.tw.max_length))
+        if self.tw.can_post():
+            self.ui.PostButton.setEnabled(True)
+        else:
+            self.ui.PostButton.setEnabled(False)
 
     def pushed_postButton(self):
-        if self.tw.can_post:
             self.tw.post_tweet(self.post)
-        else:
-            print("ERROR : ツイート内容を最大長以内に修正してください。(Your text is too long!!)")
 
 # 単体テスト時処理
 if __name__ == '__main__':

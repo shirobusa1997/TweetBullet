@@ -37,7 +37,8 @@ class TWController():
 	AUTHENTICATE_URL  = "https://api.twitter.com/oauth/authenticate"
 
 	# 最大テキスト長(Byte単位で計算)
-	max_length = 240
+	text_length = 0
+	max_length  = 240
 
 	def __init__(self):
 		self.CONSUMER_KEY 		= config.consumer_key
@@ -121,16 +122,18 @@ class TWController():
 
 	# ユーザテキストの文字数計算
 	def check_textlength(self, text):
+		self.text_length = 0
 		for character in text:
 			# 全角文字・特殊文字は2文字(Byte)として計算
 			if unicodedata.east_asian_width(character) in 'FWA':
-				self.textlength += 2
+				self.text_length += 2
 			else:
-				self.textlength += 1
+				self.text_length += 1
+		return self.text_length
 
 	# Post可否判定
 	def can_post(self):
-		if (self.textlength  < 240 and self.textlength > 0):
+		if (self.text_length  <= 240 and self.text_length > 0):
 			return True
 		else:
 			return False
