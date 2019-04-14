@@ -47,8 +47,12 @@ class UIController(QMainWindow):
         else:
             self.ui.PostButton.setEnabled(False)
 
+    def refresh_PostEditor(self):
+        self.ui.PostEditor.setText("")
+
     def pushed_postButton(self):
             self.tw.post_tweet(self.post)
+            self.refresh_PostEditor()
 
 # 単体テスト時処理
 if __name__ == '__main__':

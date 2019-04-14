@@ -38,7 +38,7 @@ class TWController():
 
 	# 最大テキスト長(Byte単位で計算)
 	text_length = 0
-	max_length  = 240
+	max_length  = 280
 
 	def __init__(self):
 		self.CONSUMER_KEY 		= config.consumer_key
