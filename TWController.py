@@ -111,7 +111,13 @@ class TWController():
 
 		# OAuthによる認証処理試行
 		try:
-			self.TWITTER_OAUTH = OAuth1Session(self.CONSUMER_KEY, self.CONSUMER_SECRET, self.ACCESS_TOKEN, self.ACCESS_TOKEN_SECRET)
+			# self.TWITTER_OAUTH = OAuth1Session(self.CONSUMER_KEY, self.CONSUMER_SECRET, self.ACCESS_TOKEN, self.ACCESS_TOKEN_SECRET)
+			self.OAUTH 		= tweepy.OAuthHandler(self.CONSUMER_KEY, self.CONSUMER_SECRET)
+			self.OAUTH.set_access_token(self.ACCESS_TOKEN, self.ACCESS_TOKEN_SECRET)
+			self.APIInst 	= tweepy.API(self.OAUTH)
+			self.UserObject = self.APIInst.me() 
+			self.UserName	= self.UserObject.screen_name
+
 		# すべての例外をキャッチ
 		except Exception as e:
 			print(e)
@@ -140,18 +146,20 @@ class TWController():
 
 	# ツイートのPost
 	def post_tweet(self, tweet):
-		parameter = {"status" : tweet}
-		response = self.TWITTER_OAUTH.post(self.RESOURCE_URL, params = parameter)
-		if response.status_code == 200:
-			print("Comfirmed post.")
-			return True
+		# parameter = {"status" : tweet}
+		# response = self.TWITTER_OAUTH.post(self.RESOURCE_URL, params = parameter)
+		# if response.status_code == 200:
+		# 	print("Comfirmed post.")
+		# 	return True
+		# else:
+		# 	print("Failed : %d"% response.status_code)
+		# 	return False
+		try:
+			self.APIInst.update_status(status=tweet)
+		except Exception as e:
+			print(e)
 		else:
-			print("Failed : %d"% response.status_code)
-			return False
-
-	# ユーザID・名前の取得
-	def get_userdata(self):
-		pass
+			print("Comfirmed post.")
 
 # 単体テスト時処理
 if __name__ == '__main__':

@@ -26,8 +26,13 @@ class UIController(QMainWindow):
         self.ui.setupUi(self)
         self.connect_signal_slot()
         self.updated_text()
+        
+        self.ui.UserInformation.setText("@" + self.tw.UserName)
 
         print("Initialize section : ALL GREEN")
+
+    def __del__(self):
+        print("Application had closed.")
 
     def connect_signal_slot(self):
         self.ui.PostButton.clicked.connect(self.pushed_postButton)
