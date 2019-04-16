@@ -4,3 +4,4 @@ Configulations/config.py
 .vscode/
 config.py
 .savedata
+__pycache__/
