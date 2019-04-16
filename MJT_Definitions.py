@@ -4,4 +4,13 @@ import urllib
 import requests
 
 def download_image(resource_url, destpath):
-    pass
+    resource = requests.get(resource_url, stream = True)
+    if (resource.status_code == 200):
+        try:
+            with open(destpath, "wb") as file:
+                file.write(resource.content)
+        except Exception as e:
+            print(e)
+            return False
+        else:
+            return True
