@@ -40,7 +40,7 @@ class TWController():
 	ACCESS_TOKEN_URL  = "https://api.twitter.com/oauth/access_token"
 	AUTHENTICATE_URL  = "https://api.twitter.com/oauth/authenticate"
 
-	CACHE_PATH = "./cache"
+	CACHE_PATH = "__pycache__/"
 
 	# 最大テキスト長(Byte単位で計算)
 	text_length = 0
@@ -153,7 +153,8 @@ class TWController():
 
 	def get_user_image(self):
 		try:
-			print(self.UserObject.profile_image_url_https)
+			print("get_user_image : " + self.UserObject.profile_image_url_https)
+			MJT_Definitions.download_image(self.UserObject.profile_image_url_https, self.CACHE_PATH + "profileimg.")
 		except Exception as e:
 			print(e)
 		else:
