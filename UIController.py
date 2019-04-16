@@ -28,6 +28,7 @@ class UIController(QMainWindow):
         self.updated_text()
         
         self.ui.UserInformation.setText(self.tw.UserName + " (@" + self.tw.UserID + ")")
+        self.tw.get_user_image()
 
         print("Initialize section : ALL GREEN")
 

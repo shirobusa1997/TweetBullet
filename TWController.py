@@ -9,9 +9,13 @@ import unicodedata
 
 import oauth2
 
+# 外部モジュール参照
 import tweepy
 
 from requests_oauthlib import OAuth1Session
+
+# 独自モジュール参照
+import MJT_Definitions
 
 # print("Please input details of your posts.")
 # tweet = input('>> ')
@@ -35,6 +39,8 @@ class TWController():
 	REQUEST_TOKEN_URL = "https://api.twitter.com/oauth/request_token"
 	ACCESS_TOKEN_URL  = "https://api.twitter.com/oauth/access_token"
 	AUTHENTICATE_URL  = "https://api.twitter.com/oauth/authenticate"
+
+	CACHE_PATH = "./cache"
 
 	# 最大テキスト長(Byte単位で計算)
 	text_length = 0
@@ -144,6 +150,14 @@ class TWController():
 			return True
 		else:
 			return False
+
+	def get_user_image(self):
+		try:
+			print(self.UserObject.profile_image_url_https)
+		except Exception as e:
+			print(e)
+		else:
+			print("get_user_image() : NO ERROR")
 
 	# ツイートのPost
 	def post_tweet(self, tweet):
