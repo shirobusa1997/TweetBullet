@@ -50,6 +50,10 @@ class TWController():
 		self.CONSUMER_KEY 		= config.consumer_key
 		self.CONSUMER_SECRET 	= config.consumer_secret
 		self.app = oauth2.Consumer(self.CONSUMER_KEY, self.CONSUMER_SECRET)
+		print("TWController : CONSTRUCTOR PROCESS COMPLETE")
+
+	def __del__(self):
+		print("TWController : DESTRUCTOR PROCESS COMPLETE")
 
 	def get_saved_token(self, fileref):
 		list = [string.strip() for string in fileref.readlines()]
@@ -154,11 +158,13 @@ class TWController():
 	def get_user_image(self):
 		try:
 			print("get_user_image : " + self.UserObject.profile_image_url_https)
-			MJT_Definitions.download_image(self.UserObject.profile_image_url_https, self.CACHE_PATH + "profileimg.")
+			self.profileimg_path = MJT_Definitions.download_image(self.UserObject.profile_image_url_https, self.CACHE_PATH + "profileimg.")
 		except Exception as e:
 			print(e)
+			sys.exit()
 		else:
 			print("get_user_image() : NO ERROR")
+			return self.profileimg_path
 
 	# ツイートのPost
 	def post_tweet(self, tweet):
@@ -178,7 +184,7 @@ class TWController():
 			print("Comfirmed post.")
 
 # 単体テスト時処理
-if __name__ == '__main__':
+if (__name__ == '__main__'):
 	tmp = TWController()
 	# auth_url = tmp.get_auth_url()
 	# webbrowser.open(auth_url)
@@ -195,6 +201,6 @@ if __name__ == '__main__':
 
 	tmp.authorize_user()
 
-	tmp.post_tweet(input('POST>>'))
+	tmp.get_user_image()
 
 	sys.exit()
