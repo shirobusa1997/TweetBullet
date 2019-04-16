@@ -28,12 +28,13 @@ class UIController(QMainWindow):
         self.updated_text()
         
         self.ui.UserInformation.setText(self.tw.UserName + " (@" + self.tw.UserID + ")")
-        self.tw.get_user_image()
+        self.ui.profileimg = QImage(self.tw.get_user_image())
+        self.ui.label.setPixmap(QPixmap.fromImage(self.ui.profileimg))
 
-        print("Initialize section : ALL GREEN")
+        print("UIController : CONSTRUCTOR PROCESS COMPLETE")
 
     def __del__(self):
-        print("Application had closed.")
+        print("UIController : DESTRUCTOR PROCESS COMPLETE")
 
     def connect_signal_slot(self):
         self.ui.PostButton.clicked.connect(self.pushed_postButton)

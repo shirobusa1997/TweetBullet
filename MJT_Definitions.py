@@ -6,20 +6,23 @@ import imghdr
 
 def download_image(resource_url, destpath):
     resource = requests.get(resource_url, stream = True)
+    path = "N/A"
     if (resource.status_code == 200):
         try:
             resource_type = imghdr.what(None, resource.content)
-            with open(destpath + resource_type, "wb") as file:
+            path = destpath + resource_type
+            with open(path, "wb") as file:
                 file.write(resource.content)
         except Exception as e:
-            print(e)
-            print("DEBUG : An error occured!")
-            return False
+            return e
         else:
             print("DEBUG : Download Complete.")
-            return True
+            return path
 
+# 単体テスト時処理
 if (__name__ == "__main__"):
     resource_url = "https://pbs.twimg.com/profile_images/1067860552863469568/2xVnEyfR_normal.jpg"
     destpath     = "__pycache__/result."
-    download_image(resource_url, destpath)
+    print(download_image(resource_url, destpath))
+
+    sys.exit()
