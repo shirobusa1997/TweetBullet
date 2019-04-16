@@ -43,6 +43,11 @@ class Ui_MainWindow(object):
         self.UserInformation.setFont(font)
         self.UserInformation.setLayoutDirection(QtCore.Qt.LeftToRight)
         self.UserInformation.setObjectName("UserInformation")
+        self.frame = QtWidgets.QFrame(self.centralWidget)
+        self.frame.setGeometry(QtCore.QRect(300, 20, 90, 90))
+        self.frame.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.frame.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.frame.setObjectName("frame")
         MainWindow.setCentralWidget(self.centralWidget)
 
         self.retranslateUi(MainWindow)
