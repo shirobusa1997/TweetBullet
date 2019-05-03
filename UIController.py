@@ -26,10 +26,10 @@ class UIController(QMainWindow):
         self.ui.setupUi(self)
         self.connect_signal_slot()
         self.updated_text()
-        
+
         self.ui.UserInformation.setText(self.tw.UserName + " (@" + self.tw.UserID + ")")
-        self.ui.profileimg = QImage(self.tw.get_user_image())
-        self.ui.label.setPixmap(QPixmap.fromImage(self.ui.profileimg))
+        # self.ui.profileimg = QImage(self.tw.get_user_image())
+        # self.ui.label.setPixmap(QPixmap.fromImage(self.ui.profileimg))
 
         print("UIController : CONSTRUCTOR PROCESS COMPLETE")
 
