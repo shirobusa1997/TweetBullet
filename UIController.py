@@ -4,6 +4,7 @@ import sys
 
 # UIクラス指定
 from mainwindow import Ui_MainWindow
+from widget import Ui_Form as widget
 
 # Twitterエンジンモジュール指定
 from TWController import TWController
@@ -14,15 +15,16 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 
 # UI制御クラス宣言
-class UIController(QMainWindow):
+class UIController(QWidget):
 # コンストラクタメソッド
     def __init__(self, parent = None):
         super(UIController, self).__init__(parent)
+        self.setWindowFlags(Qt.FramelessWindowHint)
 
         self.tw = TWController()
         self.tw.authorize_user()
 
-        self.ui = Ui_MainWindow()
+        self.ui = widget()
         self.ui.setupUi(self)
         self.connect_signal_slot()
         self.updated_text()
