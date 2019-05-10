@@ -17,18 +17,6 @@ from requests_oauthlib import OAuth1Session
 # 独自モジュール参照
 import MJT_Definitions
 
-# print("Please input details of your posts.")
-# tweet = input('>> ')
-
-# param = {"status" : tweet}
-
-# res = TWITTER_OAUTH.post(RESOURCE_URL, params = param)
-
-# if res.status_code == 200:
-# 	print("Comfirmed your post.")
-# else:
-# 	print("Failed : %d"% res.status_code)
-
 class TWController():
 	TW_USER_name = "[UserName]"
 	TW_USER_id	 = "[UserID]"
@@ -168,14 +156,6 @@ class TWController():
 
 	# ツイートのPost
 	def post_tweet(self, tweet):
-		# parameter = {"status" : tweet}
-		# response = self.TWITTER_OAUTH.post(self.RESOURCE_URL, params = parameter)
-		# if response.status_code == 200:
-		# 	print("Comfirmed post.")
-		# 	return True
-		# else:
-		# 	print("Failed : %d"% response.status_code)
-		# 	return False
 		try:
 			self.APIInst.update_status(status=tweet)
 		except Exception as e:
