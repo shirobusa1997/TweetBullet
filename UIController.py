@@ -17,6 +17,9 @@ from PyQt5.QtGui import *
 
 # UI制御クラス宣言
 class UIController(QWidget):
+    widgetsize_w = 400
+    widgetsize_h = 140
+
 # コンストラクタメソッド
     def __init__(self, parent = None):
         super(UIController, self).__init__(parent)
@@ -27,12 +30,17 @@ class UIController(QWidget):
 
         self.ui = widget()
         self.ui.setupUi(self)
+        self.desktop = QDesktopWidget()
+        self.framesize = self.frameSize()
         self.connect_signal_slot()
         self.updated_text()
 
         self.ui.UserInformation.setText(self.tw.UserName + " (@" + self.tw.UserID + ")")
         # self.ui.profileimg = QImage(self.tw.get_user_image())
         # self.ui.label.setPixmap(QPixmap.fromImage(self.ui.profileimg))
+
+        self.animation = QPropertyAnimation(self, b'pos', self)
+        self.open_interface()
 
         print("UIController : CONSTRUCTOR PROCESS COMPLETE")
 
@@ -61,8 +69,22 @@ class UIController(QWidget):
         self.ui.PostEditor.setText("")
 
     def pushed_postButton(self):
-            self.tw.post_tweet(self.post)
-            self.refresh_PostEditor()
+        self.tw.post_tweet(self.post)
+        self.refresh_PostEditor()
+
+    def open_interface(self):
+        self.animation.setDuration(500)
+        self.animation.setStartValue(QPoint(self.desktop.width() + 10, self.desktop.height() - 900))
+        self.animation.setEndValue(QPoint(self.desktop.width() - 450, self.desktop.height() - 900))
+        self.animation.setEasingCurve(QEasingCurve.InOutQuad)
+        self.animation.start()
+
+    def close_interface(self):
+        self.animation.setDuration(500)
+        self.animation.setStartValue(QPoint(self.desktop.width() - 450, self.desktop.height() - 900))
+        self.animation.setEndValue(QPoint(self.desktop.width() + 10, self.desktop.height() - 900))
+        self.animation.setEasingCurve(QEasingCurve.InOutQuad)
+        self.animation.start()
 
 # 単体テスト時処理
 if __name__ == '__main__':
