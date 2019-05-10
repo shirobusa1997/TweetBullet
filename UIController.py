@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 # 標準モジュール参照
 import sys
+import re
 
 # UIクラス指定
 from mainwindow import Ui_MainWindow
@@ -43,9 +44,14 @@ class UIController(QWidget):
         self.ui.PostEditor.textChanged.connect(self.updated_text)
 
     def updated_text(self):
-        self.post = self.ui.PostEditor.toPlainText()
-        print("UPDATE : " + self.post)
-        self.ui.TextLengthIndicator.setText(str(self.tw.check_textlength(self.post)) + " / " + str(self.tw.max_length) + "[Byte]")
+        self.post = self.post_raw = self.ui.PostEditor.toPlainText()
+
+        self.post_raw = re.sub(' ', "", self.post_raw)
+        self.post_raw = re.sub('\n', "", self.post_raw)
+        self.post_raw = re.sub('　', "", self.post_raw)
+
+        print("UPDATE : " + self.post_raw)
+        self.ui.TextLengthIndicator.setText(str(self.tw.check_textlength(self.post_raw)) + " / " + str(self.tw.max_length) + "[Byte]")
         if self.tw.can_post():
             self.ui.PostButton.setEnabled(True)
         else:
