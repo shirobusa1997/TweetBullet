@@ -11,7 +11,7 @@ from widget import Ui_Form as widget
 from TWController import TWController
 
 # トリガーキーコンボ監視モジュール参照
-import TriggerChecker
+# import TriggerChecker
 
 # PyQt5モジュール参照
 from PyQt5.QtCore import *
