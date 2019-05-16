@@ -43,7 +43,6 @@ class UIController(QWidget):
         # self.ui.label.setPixmap(QPixmap.fromImage(self.ui.profileimg))
 
         self.animation = QPropertyAnimation(self, b'pos', self)
-        self.open_interface()
 
         print("UIController : CONSTRUCTOR PROCESS COMPLETE")
 
@@ -76,14 +75,14 @@ class UIController(QWidget):
         self.refresh_PostEditor()
 
     def open_interface(self):
-        self.animation.setDuration(500)
+        self.animation.setDuration(250)
         self.animation.setStartValue(QPoint(self.desktop.width() + 10, self.desktop.height() - 900))
         self.animation.setEndValue(QPoint(self.desktop.width() - 450, self.desktop.height() - 900))
         self.animation.setEasingCurve(QEasingCurve.InOutQuad)
         self.animation.start()
 
     def close_interface(self):
-        self.animation.setDuration(500)
+        self.animation.setDuration(250)
         self.animation.setStartValue(QPoint(self.desktop.width() - 450, self.desktop.height() - 900))
         self.animation.setEndValue(QPoint(self.desktop.width() + 10, self.desktop.height() - 900))
         self.animation.setEasingCurve(QEasingCurve.InOutQuad)
@@ -94,4 +93,5 @@ if __name__ == '__main__':
     app = QApplication(sys.argv)
     tmp = UIController()
     tmp.show()
+    tmp.open_interface()
     sys.exit(app.exec())
