@@ -1,12 +1,11 @@
 from pyhooked import Hook, KeyboardEvent, MouseEvent
 
-
 def handle_events(args):
     if isinstance(args, KeyboardEvent):
         print(args.key_code)
-        if args.current_key == 'A' and args.event_type == 'key down' and 'Lcontrol' in args.pressed_key:
+        if args.current_key == 'A' and args.event_type == 'key down' and 'Rcontrol' in args.pressed_key:
             print("Ctrl + A was pressed")
-        elif args.current_key == 'Q' and args.event_type == 'key down' and 'Lcontrol' in args.pressed_key:
+        elif args.current_key == 'Z' and args.event_type == 'key down' and 'Rcontrol' in args.pressed_key:
             hk.stop()
             print('Quitting.')
 
