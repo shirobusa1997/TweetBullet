@@ -1,5 +1,9 @@
 # 標準モジュール参照
 import sys
+import threading
+import time
+
+# PyQt関連モジュール参照
 from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
 
