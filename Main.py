@@ -4,19 +4,24 @@ from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
 
 # UIクラス参照
-from UserInterfaces.UIController import * as UI
+from UIController import UIController as UI
 
 # Twitter機能制御クラス参照
-from TwitterSystem.TWController import * as TW
+from TWController import TWController as TW
+
+# キーコンボ監視クラス参照
+# import TriggerChecker
 
 class Test():
     # コンストラクタメソッド
     def __init__(self):
-        self.ui = Ui_MainWindow()
-        self.ui.setupUi(self)
+        self.ui = UI()
+
+    def activate(self):
+        self.ui.show()
 
 if __name__ == '__main__':
-	app = QApplication(sys.argv)
-	main_window = Test()
-	main_window.show()
-	sys.exit(app.exec_())
+    app = QApplication(sys.argv)
+    mainsys = Test()
+    mainsys.activate()
+    sys.exit(app.exec())
