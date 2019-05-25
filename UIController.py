@@ -18,7 +18,8 @@ from PyQt5.QtGui import *
 # UI制御クラス宣言
 class UIController(QWidget):
     widgetsize_w = 400
-    widgetsize_h = 140
+    widgetsize_h = 150
+    active = False
 
 # コンストラクタメソッド
     def __init__(self, parent = None):
@@ -40,6 +41,7 @@ class UIController(QWidget):
         # self.ui.label.setPixmap(QPixmap.fromImage(self.ui.profileimg))
 
         self.animation = QPropertyAnimation(self, b'pos', self)
+        self.move(QPoint(self.desktop.width() + 10, self.desktop.height() - 900))
 
         print("UIController : CONSTRUCTOR PROCESS COMPLETE")
 
@@ -64,6 +66,12 @@ class UIController(QWidget):
         else:
             self.ui.PostButton.setEnabled(False)
 
+    def keyPressEvent(self, event):
+        modifires = QApplication.keyboardModifiers()
+        if modifires == Qt.ControlModifier:
+            if event.key() == Qt.Key_Slash:
+                self.change_interface_state()
+
     def refresh_PostEditor(self):
         self.ui.PostEditor.setText("")
 
@@ -71,7 +79,14 @@ class UIController(QWidget):
         self.tw.post_tweet(self.post)
         self.refresh_PostEditor()
 
+    def change_interface_state(self):
+        if self.active:
+            self.close_interface()
+        else:
+            self.open_interface()
+
     def open_interface(self):
+        self.active = True
         self.animation.setDuration(250)
         self.animation.setStartValue(QPoint(self.desktop.width() + 10, self.desktop.height() - 900))
         self.animation.setEndValue(QPoint(self.desktop.width() - 450, self.desktop.height() - 900))
@@ -79,6 +94,7 @@ class UIController(QWidget):
         self.animation.start()
 
     def close_interface(self):
+        self.active = False
         self.animation.setDuration(250)
         self.animation.setStartValue(QPoint(self.desktop.width() - 450, self.desktop.height() - 900))
         self.animation.setEndValue(QPoint(self.desktop.width() + 10, self.desktop.height() - 900))
