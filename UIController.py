@@ -19,6 +19,7 @@ from PyQt5.QtGui import *
 class UIController(QWidget):
     widgetsize_w = 400
     widgetsize_h = 150
+    animduration = 150
     active = False
 
 # コンストラクタメソッド
@@ -87,7 +88,7 @@ class UIController(QWidget):
 
     def open_interface(self):
         self.active = True
-        self.animation.setDuration(250)
+        self.animation.setDuration(self.animduration)
         self.animation.setStartValue(QPoint(self.desktop.width() + 10, self.desktop.height() - 900))
         self.animation.setEndValue(QPoint(self.desktop.width() - 450, self.desktop.height() - 900))
         self.animation.setEasingCurve(QEasingCurve.InOutQuad)
@@ -95,7 +96,7 @@ class UIController(QWidget):
 
     def close_interface(self):
         self.active = False
-        self.animation.setDuration(250)
+        self.animation.setDuration(self.animduration)
         self.animation.setStartValue(QPoint(self.desktop.width() - 450, self.desktop.height() - 900))
         self.animation.setEndValue(QPoint(self.desktop.width() + 10, self.desktop.height() - 900))
         self.animation.setEasingCurve(QEasingCurve.InOutQuad)
@@ -106,5 +107,4 @@ if __name__ == '__main__':
     app = QApplication(sys.argv)
     tmp = UIController()
     tmp.show()
-    tmp.open_interface()
     sys.exit(app.exec())
