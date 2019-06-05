@@ -16,7 +16,6 @@ class Core():
     # コンストラクタメソッド
     def __init__(self):
         self.ui = UI()
-        # self.T_keywatchdog = threading.Thread(target = TC)
 
     def run(self):
         self.ui.show()
@@ -25,5 +24,4 @@ if __name__ == '__main__':
     app = QApplication(sys.argv)
     mainsys = Core()
     mainsys.run()
-    # mainsys.T_keywatchdog.join()
     sys.exit(app.exec())

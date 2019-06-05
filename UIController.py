@@ -17,7 +17,6 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 
 # キーコンボ監視クラス参照
-# from TriggerChecker import TriggerChecker as TC
 from pyhooked import Hook, KeyboardEvent, MouseEvent
 
 # UI制御クラス宣言
