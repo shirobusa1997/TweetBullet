@@ -5,7 +5,6 @@ import re
 import threading
 
 # UIクラス指定
-from mainwindow import Ui_MainWindow
 from widget import Ui_Form as widget
 
 # Twitterエンジンモジュール指定
