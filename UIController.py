@@ -2,6 +2,7 @@
 # 標準モジュール参照
 import sys
 import re
+import threading
 
 # UIクラス指定
 from mainwindow import Ui_MainWindow
@@ -14,6 +15,10 @@ from TWController import TWController
 from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
+
+# キーコンボ監視クラス参照
+# from TriggerChecker import TriggerChecker as TC
+from pyhooked import Hook, KeyboardEvent, MouseEvent
 
 # UI制御クラス宣言
 class UIController(QWidget):
@@ -43,11 +48,27 @@ class UIController(QWidget):
 
         self.animation = QPropertyAnimation(self, b'pos', self)
         self.move(QPoint(self.desktop.width() + 10, self.desktop.height() - 900))
+        self.setWindowFlag(Qt.WindowStaysOnTopHint)
+
+        self.active = False
+        self.change_interface_state()
 
         print("UIController : CONSTRUCTOR PROCESS COMPLETE")
 
+        hk = Hook()
+        hk.handler = self.handle_events
+        self.key_thread = threading.Thread(target=hk.hook)
+        self.key_thread.setDaemon(True)
+        self.key_thread.start()
+
     def __del__(self):
         print("UIController : DESTRUCTOR PROCESS COMPLETE")
+
+    def handle_events(self, args):
+        if isinstance(args, KeyboardEvent):
+            if args.current_key == 'O' and args.event_type == 'key up' and 'Rcontrol' in args.pressed_key:
+                print("Thread : Trigger KeyCombo was pressed")
+                self.change_interface_state()
 
     def connect_signal_slot(self):
         self.ui.PostButton.clicked.connect(self.pushed_postButton)
@@ -67,11 +88,11 @@ class UIController(QWidget):
         else:
             self.ui.PostButton.setEnabled(False)
 
-    def keyPressEvent(self, event):
-        modifires = QApplication.keyboardModifiers()
-        if modifires == Qt.ControlModifier:
-            if event.key() == Qt.Key_Slash:
-                self.change_interface_state()
+    # def keyPressEvent(self, event):
+    #     modifires = QApplication.keyboardModifiers()
+    #     if modifires == Qt.ControlModifier:
+    #         if event.key() == Qt.Key_O:
+    #             self.change_interface_state()
 
     def refresh_PostEditor(self):
         self.ui.PostEditor.setText("")
@@ -87,6 +108,7 @@ class UIController(QWidget):
             self.open_interface()
 
     def open_interface(self):
+        self.setFocus(True)
         self.active = True
         self.animation.setDuration(self.animduration)
         self.animation.setStartValue(QPoint(self.desktop.width() + 10, self.desktop.height() - 900))
@@ -95,6 +117,7 @@ class UIController(QWidget):
         self.animation.start()
 
     def close_interface(self):
+        self.setFocus(False)
         self.active = False
         self.animation.setDuration(self.animduration)
         self.animation.setStartValue(QPoint(self.desktop.width() - 450, self.desktop.height() - 900))
