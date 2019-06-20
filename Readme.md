@@ -2,7 +2,6 @@ TweetBullet(Beta)
 ====
 
 開発ロードマップ(Trello) : https://trello.com/b/jrqsTj1f/tweetbullet-roadmap
-Development Roadmap is here! ↑
 
 ## Overview
 「TweetBullet(仮称)」は、Win/Mac両環境向けに開発されている、Twitterクライアントアプリケーションです。
