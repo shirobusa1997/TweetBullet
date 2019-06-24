@@ -40,7 +40,7 @@ class UIController(QWidget):
         self.connect_signal_slot()
         self.updated_text()
 
-        self.ui.UserInformation.setText(self.tw.UserName + " (@" + self.tw.UserID + ")")
+        self.ui.UserInformation.setText(self.tw.AuthInst.UserName + " (@" + self.tw.AuthInst.UserID + ")")
         # self.ui.profileimg = QImage(self.tw.get_user_image())
         # self.ui.label.setPixmap(QPixmap.fromImage(self.ui.profileimg))
 

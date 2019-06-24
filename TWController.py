@@ -16,6 +16,7 @@ from requests_oauthlib import OAuth1Session
 
 # 独自モジュール参照
 import MJT_Definitions
+import TWAuthController
 
 class TWController():
 	TW_USER_name = "[UserName]"
@@ -35,95 +36,11 @@ class TWController():
 	max_length  = 280
 
 	def __init__(self):
-		self.CONSUMER_KEY 		= config.consumer_key
-		self.CONSUMER_SECRET 	= config.consumer_secret
-		self.app = oauth2.Consumer(self.CONSUMER_KEY, self.CONSUMER_SECRET)
+		self.AuthInst = TWAuthController()
 		print("TWController : CONSTRUCTOR PROCESS COMPLETE")
 
 	def __del__(self):
 		print("TWController : DESTRUCTOR PROCESS COMPLETE")
-
-	def get_saved_token(self, fileref):
-		list = [string.strip() for string in fileref.readlines()]
-		self.ACCESS_TOKEN = list[0]
-		self.ACCESS_TOKEN_SECRET = list[1]
-
-	# アプリケーション認証URL取得
-	def get_auth_url(self):
-		self.set_request_token_content()
-		request_token = self.request_token_content["oauth_token"][0]
-		query = urllib.parse.urlencode({"oauth_token": request_token})
-		return self.AUTHENTICATE_URL + "?" + query
-
-	# トークン情報を持つ辞書(dict)生成
-	def get_access_token_dict(self, PIN):
-		oauth_token = self.request_token_content["oauth_token"][0]
-		oauth_token_secret = self.request_token_content["oauth_token_secret"][0]
-		token = oauth2.Token(oauth_token, oauth_token_secret)
-		client = oauth2.Client(self.app, token)
-		body = urllib.parse.urlencode({"oauth_verifier": PIN})
-		response, content = client.request(self.ACCESS_TOKEN_URL, "POST", body = body)
-		return urllib.parse.parse_qs(content.decode())
-
-	# トークン要求のための情報生成
-	def set_request_token_content(self):
-		client = oauth2.Client(self.app)
-		response, content = client.request(self.REQUEST_TOKEN_URL, "GET")
-		self.request_token_content = urllib.parse.parse_qs(content.decode())
-
-
-	# OAuthによるユーザ認証
-	def authorize_user(self):
-		self.path = '.savedata'
-		try:
-			with open(self.path) as fileref:
-				self.get_saved_token(fileref)
-		except FileNotFoundError:
-			# self.ACCESS_TOKEN 		= config.access_token
-			# self.ACCESS_TOKEN_SECRET = config.access_token_secret
-			self.auth_url = self.get_auth_url()
-			webbrowser.open(self.auth_url)
-
-			print("PINコードを入力してください。\n", end = "")
-			PIN = int(input(">> "))
-
-			self.access_token_content = self.get_access_token_dict(PIN)
-			self.ACCESS_TOKEN = self.access_token_content["oauth_token"][0]
-			self.ACCESS_TOKEN_SECRET = self.access_token_content["oauth_token_secret"][0]
-
-			print("Authorization Completed.------------------------------------------------")
-			print("ACCESS TOKEN        = " + self.ACCESS_TOKEN)
-			print("ACCESS TOKEN SECRET = " + self.ACCESS_TOKEN_SECRET)
-			print("------------------------------------------------------------------------")
-
-			try:
-				with open(self.path, mode="w") as fileref:
-					string = self.ACCESS_TOKEN + "\n" + self.ACCESS_TOKEN_SECRET
-					fileref.write(string)
-			except FileNotFoundError as e:
-				print("An error occured!")
-				print(e)
-				sys.exit()
-			else:
-				print("Saved ")
-
-		# OAuthによる認証処理試行
-		try:
-			# self.TWITTER_OAUTH = OAuth1Session(self.CONSUMER_KEY, self.CONSUMER_SECRET, self.ACCESS_TOKEN, self.ACCESS_TOKEN_SECRET)
-			self.OAUTH 		= tweepy.OAuthHandler(self.CONSUMER_KEY, self.CONSUMER_SECRET)
-			self.OAUTH.set_access_token(self.ACCESS_TOKEN, self.ACCESS_TOKEN_SECRET)
-			self.APIInst 	= tweepy.API(self.OAUTH)
-			self.UserObject = self.APIInst.me() 
-			self.UserName	= self.UserObject.name
-			self.UserID		= self.UserObject.screen_name
-
-		# すべての例外をキャッチ
-		except Exception as e:
-			print(e)
-			return False
-		else :
-			print("Authorization Completed.")
-			return True
 
 	# ユーザテキストの文字数計算
 	def check_textlength(self, text):
@@ -157,7 +74,7 @@ class TWController():
 	# ツイートのPost
 	def post_tweet(self, tweet):
 		try:
-			self.APIInst.update_status(status=tweet)
+			self.AuthInst.APIInst.update_status(status=tweet)
 		except Exception as e:
 			print(e)
 		else:
@@ -177,9 +94,7 @@ if (__name__ == '__main__'):
 	# access_token_secret = access_token_content["oauth_token_secret"][0]
 
 	# print("ACCESS TOKEN        = " + access_token + "\n")
-	# print("ACCESS TOKEN SECRET = " + access_token_secret + "\n")
-
-	tmp.authorize_user()
+	# print("ACCESS TOKEN SECRET = " + access_token_secret + "\n"
 
 	tmp.get_user_image()
 
