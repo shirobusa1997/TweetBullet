@@ -16,7 +16,7 @@ from requests_oauthlib import OAuth1Session
 
 # 独自モジュール参照
 import MJT_Definitions
-import TWAuthController
+from TWAuthController import TWAuthController
 
 class TWController():
 	TW_USER_name = "[UserName]"

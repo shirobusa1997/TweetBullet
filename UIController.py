@@ -16,7 +16,8 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 
 # キーコンボ監視クラス参照
-from pyhooked import Hook, KeyboardEvent, MouseEvent
+# from pyhooked import Hook, KeyboardEvent, MouseEvent
+import keyboard
 
 # UI制御クラス宣言
 class UIController(QWidget):
@@ -31,7 +32,7 @@ class UIController(QWidget):
         self.setWindowFlags(Qt.FramelessWindowHint)
 
         self.tw = TWController()
-        self.tw.authorize_user()
+        self.tw.AuthInst.authorize_user()
 
         self.ui = widget()
         self.ui.setupUi(self)
@@ -53,11 +54,11 @@ class UIController(QWidget):
 
         print("UIController : CONSTRUCTOR PROCESS COMPLETE")
 
-        hk = Hook()
-        hk.handler = self.handle_events
-        self.key_thread = threading.Thread(target=hk.hook)
-        self.key_thread.setDaemon(True)
-        self.key_thread.start()
+        # hk = Hook()
+        # hk.handler = self.handle_events
+        # self.key_thread = threading.Thread(target=hk.hook)
+        # self.key_thread.setDaemon(True)
+        # self.key_thread.start()
 
     def __del__(self):
         print("UIController : DESTRUCTOR PROCESS COMPLETE")
@@ -86,11 +87,11 @@ class UIController(QWidget):
         else:
             self.ui.PostButton.setEnabled(False)
 
-    # def keyPressEvent(self, event):
-    #     modifires = QApplication.keyboardModifiers()
-    #     if modifires == Qt.ControlModifier:
-    #         if event.key() == Qt.Key_O:
-    #             self.change_interface_state()
+    def keyPressEvent(self, event):
+        modifires = QApplication.keyboardModifiers()
+        if modifires == Qt.ControlModifier:
+            if event.key() == Qt.Key_O:
+                self.change_interface_state()
 
     def refresh_PostEditor(self):
         self.ui.PostEditor.setText("")
