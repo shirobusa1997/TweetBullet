@@ -119,3 +119,7 @@ class TWAuthController():
         else :
             print("Authorization Completed.")
             return True
+
+    def showInterface(self, Exception){
+        pass
+    }
