@@ -14,10 +14,18 @@ import oauth2
 import tweepy
 from requests_oauthlib import OAuth1Session
 
+# PyQt5モジュール参照
+from PyQt5.QtCore import *
+from PyQt5.QtWidgets import *
+from PyQt5.QtGui import *
+
+# 認証用UIクラス指定
+from authorization import Ui_Pin_Dialog as auth_ui
+
 # 独自モジュール
 import MJT_Definitions
 
-class TWAuthController():
+class TWAuthController(QWidget):
     TW_User_name = "[UserName]"
     TW_USER_id   = "[UserID"
 
@@ -30,7 +38,8 @@ class TWAuthController():
 
     CACHE_PATH = "__pycache__/"
 
-    def __init__(self):
+    def __init__(self, parent = None):
+        super(TWAuthController, self).__init__(parent)
         self.CONSUMER_KEY    = config.consumer_key
         self.CONSUMER_SECRET = config.consumer_secret
         self.app             = oauth2.Consumer(self.CONSUMER_KEY, self.CONSUMER_SECRET)
@@ -120,6 +129,14 @@ class TWAuthController():
             print("Authorization Completed.")
             return True
 
-    def showInterface(self, Exception){
-        pass
-    }
+    def check_pin_code(self, Exception):
+        self.authui = auth_ui()
+        self.authui.setupUi(self)
+        self.authui.show()
+        # return self.authui.textEdit.toPlainText()
+
+if __name__ == '__main__':
+    app = QApplication(sys.argv)
+    tmp = TWAuthController()
+    tmp.check_pin_code(None)
+    sys.exit(app.exec())
