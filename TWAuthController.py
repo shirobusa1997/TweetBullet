@@ -129,7 +129,7 @@ class TWAuthController(QWidget):
             print("Authorization Completed.")
             return True
 
-    def check_pin_code(self, Exception):
+    def check_pin_code(self):
         self.authui = auth_ui()
         self.authui.setupUi(self)
         self.authui.show()
