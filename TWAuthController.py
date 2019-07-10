@@ -25,24 +25,30 @@ from authorization import Ui_Pin_Dialog as auth_ui
 # 独自モジュール
 import MJT_Definitions
 
-class TWAuthController(QWidget):
+class TWAuthController(QDialog):
     TW_User_name = "[UserName]"
     TW_USER_id   = "[UserID"
 
     RESOURCE_URL	= "https://api.twitter.com/1.1/statuses/update.json"
     USERLOOKUP_URL	= "https://api.twitter.com/1.1/users/lookup.json"
-
     REQUEST_TOKEN_URL = "https://api.twitter.com/oauth/request_token"
     ACCESS_TOKEN_URL  = "https://api.twitter.com/oauth/access_token"
     AUTHENTICATE_URL  = "https://api.twitter.com/oauth/authenticate"
 
     CACHE_PATH = "__pycache__/"
 
+    flag = False
+
     def __init__(self, parent = None):
         super(TWAuthController, self).__init__(parent)
         self.CONSUMER_KEY    = config.consumer_key
         self.CONSUMER_SECRET = config.consumer_secret
         self.app             = oauth2.Consumer(self.CONSUMER_KEY, self.CONSUMER_SECRET)
+
+        self.authui = auth_ui()
+        self.authui.setupUi(self)
+        self.connect_signal_slot()
+
         print("TWAuthController : CONSTRUCTOR PROCESS COMPLETE")
 
     def __del__(self):
@@ -89,7 +95,8 @@ class TWAuthController(QWidget):
             webbrowser.open(self.auth_url)
 
             print("PINコードを入力してください。\n", end = "")
-            PIN = int(input(">> "))
+            # PIN = int(input(">> "))
+            PIN = self.check_pin_code()
 
             self.access_token_content = self.get_access_token_dict(PIN)
             self.ACCESS_TOKEN = self.access_token_content["oauth_token"][0]
@@ -129,11 +136,28 @@ class TWAuthController(QWidget):
             print("Authorization Completed.")
             return True
 
+    def connect_signal_slot(self):
+        self.authui.buttonBox.accepted.connect(self.pin_accepted)
+        self.authui.buttonBox.rejected.connect(self.pin_rejected)
+    
+    def pin_rejected(self):
+        print("Authorization Rejected.")
+        self.flag = False
+        self.close()
+
+    def pin_accepted(self):
+        print("Authorization Accepted.")
+        self.flag = True
+        self.close()
+
     def check_pin_code(self):
-        self.authui = auth_ui()
-        self.authui.setupUi(self)
-        self.authui.show()
-        # return self.authui.textEdit.toPlainText()
+        self.show()
+        if (self.flag == False):
+            sys.exit()
+        return self.authui.textEdit.toPlainText()
+
+    def show(self):
+        self.exec_()
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)

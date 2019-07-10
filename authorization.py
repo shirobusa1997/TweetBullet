@@ -44,8 +44,8 @@ class Ui_Pin_Dialog(object):
         self.label.setObjectName("label")
 
         self.retranslateUi(Pin_Dialog)
-        self.buttonBox.accepted.connect(Pin_Dialog.accept)
-        self.buttonBox.rejected.connect(Pin_Dialog.reject)
+        # self.buttonBox.accepted.connect(Pin_Dialog.accept)
+        # self.buttonBox.rejected.connect(Pin_Dialog.reject)
         QtCore.QMetaObject.connectSlotsByName(Pin_Dialog)
 
     def retranslateUi(self, Pin_Dialog):
