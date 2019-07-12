@@ -52,6 +52,8 @@ class UIController(QWidget):
         self.active = False
         self.change_interface_state()
 
+        keyboard.add_hotkey('ctrl+o', print, args=('triggered', 'hotkey'))
+
         print("UIController : CONSTRUCTOR PROCESS COMPLETE")
 
         # hk = Hook()
