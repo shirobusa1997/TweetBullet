@@ -52,7 +52,8 @@ class UIController(QWidget):
         self.active = False
         self.change_interface_state()
 
-        keyboard.add_hotkey('ctrl+o', print, args=('triggered', 'hotkey'))
+        keyboard.add_hotkey('command+o', lambda: self.change_interface_state)
+        print(keyboard.read_hotkey())
 
         print("UIController : CONSTRUCTOR PROCESS COMPLETE")
 
@@ -89,11 +90,11 @@ class UIController(QWidget):
         else:
             self.ui.PostButton.setEnabled(False)
 
-    def keyPressEvent(self, event):
-        modifires = QApplication.keyboardModifiers()
-        if modifires == Qt.ControlModifier:
-            if event.key() == Qt.Key_O:
-                self.change_interface_state()
+    # def keyPressEvent(self, event):
+    #     modifires = QApplication.keyboardModifiers()
+    #     if modifires == Qt.ControlModifier:
+    #         if event.key() == Qt.Key_O:
+    #             self.change_interface_state()
 
     def refresh_PostEditor(self):
         self.ui.PostEditor.setText("")
@@ -103,6 +104,7 @@ class UIController(QWidget):
         self.refresh_PostEditor()
 
     def change_interface_state(self):
+        print("hello")
         if self.active:
             self.close_interface()
         else:
