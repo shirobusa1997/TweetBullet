@@ -52,8 +52,8 @@ class UIController(QWidget):
         self.active = False
         self.change_interface_state()
 
-        keyboard.add_hotkey('command+o', lambda: self.change_interface_state)
-        print(keyboard.read_hotkey())
+        keyboard.add_hotkey('command+u', self.change_interface_state)
+        # print(keyboard.read_hotkey())
 
         print("UIController : CONSTRUCTOR PROCESS COMPLETE")
 
