@@ -114,7 +114,7 @@ class UIController(QWidget):
         else:
             self.open_interface()
 
-    async def open_interface(self):
+    def open_interface(self):
         print("hoge")
         self.setFocus(True)
         self.active = True
@@ -123,9 +123,8 @@ class UIController(QWidget):
         self.animation.setEndValue(QPoint(self.desktop.width() - 450, self.desktop.height() - 900))
         self.animation.setEasingCurve(QEasingCurve.InOutQuad)
         self.animation.start()
-        await asyncio.sleep(self.animation)
 
-    async def close_interface(self):
+    def close_interface(self):
         print("foobar")
         self.setFocus(False)
         self.active = False
@@ -134,7 +133,6 @@ class UIController(QWidget):
         self.animation.setEndValue(QPoint(self.desktop.width() + 10, self.desktop.height() - 900))
         self.animation.setEasingCurve(QEasingCurve.InOutQuad)
         self.animation.start()
-        await asyncio.sleep(self.animation)
 
 # 単体テスト時処理
 if __name__ == '__main__':
