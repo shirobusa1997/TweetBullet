@@ -4,6 +4,8 @@ import sys
 import re
 import threading
 
+import asyncio
+
 # UIクラス指定
 from widget import Ui_Form as widget
 
@@ -25,6 +27,7 @@ class UIController(QWidget):
     widgetsize_h = 150
     animduration = 150
     active = False
+    user_hotkey = 'ctrl+shift+a'
 
 # コンストラクタメソッド
     def __init__(self, parent = None):
@@ -52,8 +55,9 @@ class UIController(QWidget):
         self.active = False
         self.change_interface_state()
 
-        keyboard.add_hotkey('command+o', lambda: self.change_interface_state)
-        print(keyboard.read_hotkey())
+        keyboard.add_hotkey(self.user_hotkey, lambda: self.change_interface_state())
+        # keyboard.add_hotkey('command+o', lambda: self.change_interface_state)
+        # print(keyboard.read_hotkey())
 
         print("UIController : CONSTRUCTOR PROCESS COMPLETE")
 
@@ -66,11 +70,11 @@ class UIController(QWidget):
     def __del__(self):
         print("UIController : DESTRUCTOR PROCESS COMPLETE")
 
-    def handle_events(self, args):
-        if isinstance(args, KeyboardEvent):
-            if args.current_key == 'O' and args.event_type == 'key up' and 'Rcontrol' in args.pressed_key:
-                print("Thread : Trigger KeyCombo was pressed")
-                self.change_interface_state()
+    # def handle_events(self, args):
+    #     if isinstance(args, KeyboardEvent):
+    #         if args.current_key == 'O' and args.event_type == 'key up' and 'Rcontrol' in args.pressed_key:
+    #             print("Thread : Trigger KeyCombo was pressed")
+    #             self.change_interface_state()
 
     def connect_signal_slot(self):
         self.ui.PostButton.clicked.connect(self.pushed_postButton)
@@ -110,7 +114,8 @@ class UIController(QWidget):
         else:
             self.open_interface()
 
-    def open_interface(self):
+    async def open_interface(self):
+        print("hoge")
         self.setFocus(True)
         self.active = True
         self.animation.setDuration(self.animduration)
@@ -118,8 +123,10 @@ class UIController(QWidget):
         self.animation.setEndValue(QPoint(self.desktop.width() - 450, self.desktop.height() - 900))
         self.animation.setEasingCurve(QEasingCurve.InOutQuad)
         self.animation.start()
+        await asyncio.sleep(self.animation)
 
-    def close_interface(self):
+    async def close_interface(self):
+        print("foobar")
         self.setFocus(False)
         self.active = False
         self.animation.setDuration(self.animduration)
@@ -127,6 +134,7 @@ class UIController(QWidget):
         self.animation.setEndValue(QPoint(self.desktop.width() + 10, self.desktop.height() - 900))
         self.animation.setEasingCurve(QEasingCurve.InOutQuad)
         self.animation.start()
+        await asyncio.sleep(self.animation)
 
 # 単体テスト時処理
 if __name__ == '__main__':
