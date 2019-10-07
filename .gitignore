@@ -5,3 +5,6 @@ Configulations/config.py
 config.py
 .savedata
 __pycache__/
+
+# Ignore virtual development environment by vritual env.
+venv_osx/
